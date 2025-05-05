@@ -9,8 +9,8 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noImplicitReturns": false,
     "noEmit": true,
     "strict": true,
@@ -18,7 +18,7 @@
     "skipLibCheck": true,
     "baseUrl": "./packages",
     "paths": {
-      "hostConfig": ["./react-reconciler/src/hostConfig.ts"]
+      "hostConfig": ["./react-dom/src/hostConfig.ts"]
     }
   },
 }

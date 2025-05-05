@@ -58,7 +58,7 @@ export class FiberNode {
 export class FiberRootNode {
   container: Container; //  在网页中为 DomElement
   current: FiberNode;
-  finishedWork: FiberNode | null;
+  finishedWork: FiberNode | null; // 构建完成的 fiber 树
 
   constructor(container: Container, hostRootFiber: FiberNode) {
     this.container = container;

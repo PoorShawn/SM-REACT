@@ -1,6 +1,6 @@
 // 递归中的归阶段
 
-import { appendInitialChild, createInstance, createTextInstance } from "hostConfig";
+import { appendInitialChild, Container, createInstance, createTextInstance } from "hostConfig";
 import { FiberNode } from "./fiber";
 import { HostComponent, HostRoot, HostText } from "./wokTags";
 import { NoFlags } from "./fiberFlags";
@@ -15,7 +15,8 @@ export const completeWork = (wip: FiberNode) => {
         // update
       } else {
         // mount,构建离屏 DOM 树
-        const instance = createInstance(wip.type, newProps);
+        // const instance = createInstance(wip.type, newProps);
+        const instance = createInstance(wip.type);
         appendAllChildren(instance, wip);
         wip.stateNode = instance;
       }
@@ -42,7 +43,7 @@ export const completeWork = (wip: FiberNode) => {
   }
 }
 
-function appendAllChildren(parent: FiberNode, wip: FiberNode) {
+function appendAllChildren(parent: Container, wip: FiberNode) {
   let node = wip.child;
 
   while (node !== null) {

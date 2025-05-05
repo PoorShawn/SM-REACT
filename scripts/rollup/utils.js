@@ -26,7 +26,8 @@ export function getPackageJSON(pkgName) {
 // 获取基础的 rollup 插件
 export function getBaseRollupPlugins({
   alias = {
-    __DEV__: true
+    __DEV__: true,
+    preventAssignment: true
   },
   typescript = {}
 } = {}) {
