@@ -64,7 +64,7 @@ function reconcileChildren(wip: FiberNode, children?: ReactElementType) {
   const current = wip.alternate;
 
   if (current !== null) {
-    // update
+    // update，以及 mount 时针对的 hostRootFiber
     wip.child = reconcilerChildFibers(wip, current?.child, children);
   } else {
     // mount

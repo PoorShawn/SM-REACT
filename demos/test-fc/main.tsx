@@ -1,13 +1,14 @@
-import React from 'react';
+import { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 function App() {
+  const [num] = useState(100);
   return (
     <div>
-      <span>
-        SM-REACT
-      </span>
-  </div>
+      <div>
+        {num}
+      </div>
+    </div>
   )
 }
 

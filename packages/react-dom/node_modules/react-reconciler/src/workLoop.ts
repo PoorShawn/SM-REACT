@@ -14,11 +14,13 @@ function prepareFreshStack(root: FiberRootNode) {
 export function scheduleUpdateOnFiber(fiber: FiberNode) {
   // TODO: 调度功能
   const root = markUpdateFromFiberRoot(fiber);
-  renderRoot(root);
+  if (root !== null) {
+    renderRoot(root);
+  }
 }
 
 // 一直向上寻找，直到 FiberRootNode
-function markUpdateFromFiberRoot(fiber: FiberNode) {
+function markUpdateFromFiberRoot(fiber: FiberNode): FiberRootNode | null {
   let node = fiber;
   let parent = node.return;
 
@@ -48,7 +50,7 @@ function renderRoot(root: FiberRootNode) {
       }
       workInProgress = null;
     }
-  } while (true); // 这里为什么需要用一个死循环
+  } while (true); // 提供高度容错性，不会因为单个错误导致整个应用的崩溃
 
   const finishedWork = root.current.alternate;
   root.finishedWork = finishedWork;

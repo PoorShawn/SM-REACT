@@ -5,6 +5,8 @@ export type Instance = Element;
   export const createInstance = (type: string): Instance => {
   // TODO 处理 props
   const element = document.createElement(type);
+  console.log('type: ', type);
+  console.log('createInstance: ', element)
   return element;
 };
 

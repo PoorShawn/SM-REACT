@@ -40,7 +40,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
     currentFiber: FiberNode | null, // current 子节点 FiberNode
     newChild?: ReactElementType // 子节点的 ReactElement
   ) {
-    // 判断当前 fiber 的类型
+    // 只有一个子节点
     if (typeof newChild === 'object' && newChild !== null) {
       switch (newChild.$$typeof) {
         case REACT_ELEMENT_TYPE:
@@ -55,7 +55,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
       }
     }
 
-    // TODO: 处理多节点的情况
+    // TODO: 处理多个子节点的情况
 
     // HostText
     if (typeof newChild === 'string' || typeof newChild === 'number') {

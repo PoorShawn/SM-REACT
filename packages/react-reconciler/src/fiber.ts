@@ -44,7 +44,7 @@ export class FiberNode {
     this.pendingProps = pendingProps; // Fiber 节点的 props 属性
     this.memoizedProps = null; // Fiber 节点的已记忆的 props 属性
     this.memoizedState = null; // 类组件存储 this.state 对象，函数组件存储所有 Hooks 状态
-    this.updateQueue = null; 
+    this.updateQueue = null; // Fiber 节点的待更新队列
 
     this.alternate = null; // 备用 Fiber 节点
 
@@ -103,7 +103,7 @@ export function createFiberFromElement(element: ReactElementType): FiberNode {
   let fiberTag: WorkTag = FunctionComponent;
 
   if (typeof type === 'string') {
-    fiberTag = HostComponent;
+    fiberTag = HostComponent; // 为什么此时可以判断未 HostComponent ?
   } else if (typeof type !== 'function' && __DEV__) {
     console.warn('未定义的 type 类型：', element);
   }
