@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch } from "react/src/currentDispatcher";
 import { Action } from "shared/ReactTypes";
 
 export interface Update<State> {

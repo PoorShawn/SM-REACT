@@ -14,6 +14,14 @@ const ReactElement = function (type: Type, key: Key, ref: Ref, props: Props): Re
   return element
 }
 
+export function isValidElement(object: any) {
+  return (
+    typeof object === 'object' &&
+    object !== null &&
+    object.$$typeof === REACT_ELEMENT_TYPE
+  )
+}
+
 // jsx 函数：将 JSX 通过 Babel 编译后的结果，转换成 ReactElement 对象
 export const jsx = (type: Type, config: any, ...maybeChildren: any): ReactElementType => {
   let key: Key = null;
@@ -24,7 +32,7 @@ export const jsx = (type: Type, config: any, ...maybeChildren: any): ReactElemen
   for (const prop in config) {
     const val = config[prop];
     if (prop === 'key' && val !== undefined) {
-      key = val;
+      key = String(val);
       continue;
     }
     if (prop === 'ref' && val !== undefined) {

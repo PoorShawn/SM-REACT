@@ -17,12 +17,12 @@ export default [
     output: [
       {
         file: `${distPath}/index.js`,
-        name: 'index.js',
+        name: 'ReactDOM',
         format: "umd",
       },
       {
         file: `${distPath}/client.js`,
-        name: 'client.js',
+        name: 'client',
         format: "umd",
       }
     ],
@@ -48,5 +48,18 @@ export default [
         })
       })
     ]
+  },
+  // react-test-utils
+  {
+    input: `${pkgPath}/test-utils.ts`,
+    output: [
+      {
+        file: `${distPath}/test-utils.js`,
+        name: 'testUtils',
+        format: "umd",
+      }
+    ],
+    external: ['react-dom', 'react'],
+    plugins: getBaseRollupPlugins()
   }
 ]
