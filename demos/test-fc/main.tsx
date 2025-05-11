@@ -2,14 +2,9 @@ import { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 function App() {
-  const [num] = useState(100);
-  return (
-    <div>
-      <div>
-        {num}
-      </div>
-    </div>
-  )
+  const [num, setNum] = useState(100);
+  window.setNum = setNum;
+  return num === 3 ? <p>hello</p> : <div>{num}</div>
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

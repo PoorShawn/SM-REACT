@@ -21,6 +21,7 @@ export class FiberNode {
   memoizedState: any;
   alternate: FiberNode | null;
   updateQueue: unknown;
+  deletions: FiberNode[] | null;
 
   flags: Flags;
   subtreeFlags: Flags;
@@ -51,6 +52,7 @@ export class FiberNode {
     // 副作用
     this.flags = NoFlags; // Fiber 节点的标记，用于表示需要更新的状态
     this.subtreeFlags = NoFlags; // 由子节点冒泡到父节点的 flags，进行优化
+    this.deletions = null; // 记录需要被删除的子节点
   }
 
 }
@@ -87,6 +89,7 @@ export const createWorkInProgress = (
     wip.pendingProps = pendingProps;
     wip.flags = NoFlags;
     wip.subtreeFlags = NoFlags;
+    wip.deletions = null;
   }
 
   wip.type = current.type;
