@@ -15,7 +15,14 @@ function App() {
   ]
 
   window.setNum = setNum;
-  return <ul onClickCapture={() => setNum(num + 1)}>{arr}</ul>
+  // return <ul onClickCapture={() => setNum(num + 1)}>{arr}</ul>
+  return (
+    <ul onClickCapture={() => setNum(num + 1)}>
+      <li>30</li>
+      <li>40</li>
+      {arr}
+    </ul>
+  )
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

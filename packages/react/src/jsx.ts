@@ -1,4 +1,4 @@
-import { REACT_ELEMENT_TYPE } from "shared/ReactSymbols"
+import { REACT_ELEMENT_TYPE, REACT_FRAGMENT_TYPE } from "shared/ReactSymbols"
 import { Type, Key, Ref, Props, ReactElementType } from "shared/ReactTypes"
 
 // ReactElement 的构造函数：把 JSX 转换成 ReactElement 对象
@@ -56,6 +56,8 @@ export const jsx = (type: Type, config: any, ...maybeChildren: any): ReactElemen
 
   return ReactElement(type, key, ref, props)
 };
+
+export const Fragment = REACT_FRAGMENT_TYPE;
 
 // 开发环境下的 jsx 函数
 export const jsxDEV = (type: Type, config: any): ReactElementType => {
