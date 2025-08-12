@@ -64,6 +64,7 @@ function updateState<State>(): [State, Dispatch<State>] {
   if (pending !== null) {
     const { memoizedState } = processUpdateQueue(hook.memoizedState, pending);
     hook.memoizedState = memoizedState;
+    queue.shared.pending = null;
   }
   
   return [hook.memoizedState, queue.dispatch as Dispatch<State>]
