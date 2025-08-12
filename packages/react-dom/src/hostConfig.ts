@@ -55,3 +55,10 @@ export function removeChild(
 export function insertChildToContainer(child: Instance, container: Container, before: Instance) {
 	container.insertBefore(child, before);
 }
+
+export const scheduleMicroTask = 
+	typeof queueMicrotask === 'function'
+		? queueMicrotask
+		: typeof Promise === 'function'
+		? (callback: (...args: any) => void) => Promise.resolve(null).then(callback)
+		: setTimeout;

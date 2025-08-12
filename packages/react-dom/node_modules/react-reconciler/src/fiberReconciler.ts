@@ -4,6 +4,7 @@ import { HostRoot } from "./wokTags";
 import { createUpdate, createUpdateQueue, enqueueUpdate, UpdateQueue } from "./updateQueue";
 import { ReactElementType } from "shared/ReactTypes";
 import { scheduleUpdateOnFiber } from "./workLoop";
+import { requestUpdateLane } from "./fiberLanes";
 
 
 export function createContainer(container: Container) {
@@ -17,14 +18,15 @@ export function createContainer(container: Container) {
 
 export function updateContainer(element: ReactElementType | null, root: FiberRootNode) {
   const hostRootFiber = root.current;
-  const update = createUpdate<ReactElementType | null>(element);
+  const lane = requestUpdateLane();
+  const update = createUpdate<ReactElementType | null>(element, lane);
 
   enqueueUpdate(
     hostRootFiber.updateQueue as UpdateQueue<ReactElementType | null>,
     update
   );
 
-  scheduleUpdateOnFiber(hostRootFiber);
+  scheduleUpdateOnFiber(hostRootFiber, lane);
 
   return element;
 }

@@ -219,6 +219,16 @@ function ChildReconciler(shouldTrackEffects: boolean) {
 
     // 当前的 element 元素是 ReactElement 类型
     if (typeof element === 'object' && element !== null) {
+      if (Array.isArray(element)) {
+        return updateFragment(
+          returnFiber,
+          before,
+          element,
+          keyToUse,
+          existingChildren
+        )
+      }
+
       switch (element.$$typeof) {
         case REACT_ELEMENT_TYPE:
           if (element.type === REACT_FRAGMENT_TYPE) {
@@ -242,21 +252,6 @@ function ChildReconciler(shouldTrackEffects: boolean) {
           // 不能复用，则创建一个新的 element
           return createFiberFromElement(element);
       }
-
-      // TODO: 数组类型
-      if (Array.isArray(element) && __DEV__) {
-        console.warn('还未实现数组类型的 child');
-      }
-    }
-
-    if (Array.isArray(element)) {
-      return updateFragment(
-        returnFiber,
-        before,
-        element,
-        keyToUse,
-        existingChildren
-      )
     }
 
     return null;

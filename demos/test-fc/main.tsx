@@ -19,6 +19,8 @@ function App() {
   return (
     <ul onClickCapture={() => {
       setNum(num => num + 1);
+      setNum(num => num + 1);
+      setNum(num => num + 1);
     }}>
       {num}
     </ul>

@@ -2,6 +2,7 @@ import { Props, Key, Ref, ReactElementType } from 'shared/ReactTypes';
 import { Fragment, FunctionComponent, HostComponent, WorkTag } from './wokTags';
 import { Flags, NoFlags } from './fiberFlags';
 import { Container } from 'hostConfig';
+import { Lane, Lanes, NoLane, NoLanes } from './fiberLanes';
 
 export class FiberNode {
   tag: WorkTag;
@@ -61,11 +62,15 @@ export class FiberRootNode {
   container: Container; //  在网页中为 DomElement
   current: FiberNode;
   finishedWork: FiberNode | null; // 构建完成的 fiber 树
+  pendingLanes: Lanes;
+  finishedLane: Lane;
 
   constructor(container: Container, hostRootFiber: FiberNode) {
     this.container = container;
     this.current = hostRootFiber;
     this.finishedWork = null;
+    this.pendingLanes = NoLanes;
+    this.finishedLane = NoLane;
 
     hostRootFiber.stateNode = this;
   }
