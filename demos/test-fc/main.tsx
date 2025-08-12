@@ -17,10 +17,10 @@ function App() {
   window.setNum = setNum;
   // return <ul onClickCapture={() => setNum(num + 1)}>{arr}</ul>
   return (
-    <ul onClickCapture={() => setNum(num + 1)}>
-      <li>30</li>
-      <li>40</li>
-      {arr}
+    <ul onClickCapture={() => {
+      setNum(num => num + 1);
+    }}>
+      {num}
     </ul>
   )
 }
