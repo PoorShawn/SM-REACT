@@ -1,30 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 function App() {
-  const [num, setNum] = useState(100);
+  const [num, updateNum] = useState(0);
+  useEffect(() => {
+    console.log('App mount');
+  }, []);
 
-  const arr = num % 2 === 0 ? [
-    <li key="1">1</li>,
-    <li key="2">2</li>,
-    <li key="3">3</li>
-  ] : [
-    <li key="3">3</li>,
-    <li key="2">2</li>,
-    <li key="1">1</li>
-  ]
+  useEffect(() => {
+    console.log('num change create: ', num);
+    return () => {
+      console.log('num change destroy: ', num);
+    }
+  }, [num])
 
-  window.setNum = setNum;
-  // return <ul onClickCapture={() => setNum(num + 1)}>{arr}</ul>
   return (
-    <ul onClickCapture={() => {
-      setNum(num => num + 1);
-      setNum(num => num + 1);
-      setNum(num => num + 1);
-    }}>
-      {num}
-    </ul>
+    <div onClick={() => updateNum(num => num + 1)}>
+      { num === 0 ? <Child/> : 'noop' }
+    </div>
   )
+}
+
+function Child() {
+  useEffect(() => {
+    console.log('Child mount');
+    return () => console.log('Child unmount');
+  }, []);
+
+  return 'I am a Child';
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

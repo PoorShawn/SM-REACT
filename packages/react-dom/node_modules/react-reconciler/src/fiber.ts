@@ -3,6 +3,7 @@ import { Fragment, FunctionComponent, HostComponent, WorkTag } from './wokTags';
 import { Flags, NoFlags } from './fiberFlags';
 import { Container } from 'hostConfig';
 import { Lane, Lanes, NoLane, NoLanes } from './fiberLanes';
+import { Effect } from './fiberHooks';
 
 export class FiberNode {
   tag: WorkTag;
@@ -58,12 +59,18 @@ export class FiberNode {
 
 }
 
+export interface PendingPassiveEffects {
+  unmount: Effect[];
+  update: Effect[];
+}
+
 export class FiberRootNode {
   container: Container; //  在网页中为 DomElement
   current: FiberNode;
   finishedWork: FiberNode | null; // 构建完成的 fiber 树
   pendingLanes: Lanes;
   finishedLane: Lane;
+  pendingPassiveEffects: PendingPassiveEffects;  // 用来收集被调度的副作用 effect 回调函数
 
   constructor(container: Container, hostRootFiber: FiberNode) {
     this.container = container;
@@ -71,6 +78,11 @@ export class FiberRootNode {
     this.finishedWork = null;
     this.pendingLanes = NoLanes;
     this.finishedLane = NoLane;
+
+    this.pendingPassiveEffects = {
+      unmount: [],
+      update: []
+    }
 
     hostRootFiber.stateNode = this;
   }

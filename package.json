@@ -26,6 +26,7 @@
     "@rollup/plugin-replace": "^6.0.2",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
+    "@types/scheduler": "^0.26.0",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@vitejs/plugin-react": "^2.2.0",
     "commitlint": "^19.8.0",
@@ -47,6 +48,7 @@
   },
   "dependencies": {
     "eslint-config-prettier": "^10.1.2",
-    "eslint-plugin-prettier": "^5.2.6"
+    "eslint-plugin-prettier": "^5.2.6",
+    "scheduler": "^0.26.0"
   }
 }
