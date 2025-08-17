@@ -76,6 +76,9 @@ function ensureRootIsScheduled(root: FiberRootNode) {
     scheduleMicroTask(flushSyncCallbacks);
   } else {
     // 其他优先级，使用宏任务进行调度
+    if (__DEV__) {
+      console.log('在宏任务中调度，优先级：', updateLane);
+    }
     const schedulerPriority = lanesToSchedulerPriority(updateLane);
     newCallbackNode = scheduleCallback(schedulerPriority, performConcurrentWorkOnRoot.bind(null, root));
   }
@@ -124,7 +127,6 @@ function performConcurrentWorkOnRoot(root: FiberRootNode, didTimeout: boolean) {
 
   const needSync = lane === SyncLane || didTimeout;
   const existStatus = renderRoot(root, lane, !needSync);
-  ensureRootIsScheduled(root);
 
   // 中断
   if (existStatus === RootInComplete) {
@@ -148,7 +150,6 @@ function performConcurrentWorkOnRoot(root: FiberRootNode, didTimeout: boolean) {
   } else if (__DEV__) {
     console.error('还未实现异步更新结束状态');
   }
-
 }
 
 function performSyncWorkOnRoot(root: FiberRootNode) {
@@ -194,7 +195,7 @@ function renderRoot(root: FiberRootNode, lane: Lane, shouldTimeSlice: boolean) {
     }
   } while (true);
 
-  // 并发的中断执行
+  // 并发的执行中断
   if (shouldTimeSlice && workInProgress !== null) {
     return RootInComplete;
   }
@@ -300,7 +301,7 @@ function workLoopSync() {
 }
 
 function workLoopConcurrent() {
-  while(workInProgress !== null && unstable_shouldYield()) {
+  while(workInProgress !== null && !unstable_shouldYield()) {
     performUnitOfWork(workInProgress);
   }
 }

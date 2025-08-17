@@ -15,7 +15,6 @@ export function mergeLanes(lanA: Lane, lanB: Lane): Lanes {
   return lanA | lanB;
 }
 
-// TODO:为不同的事件产生不同的优先级
 export function requestUpdateLane() {
   // 从上下文中获取当前 scheduler 的优先级
   const currentSchedulerPriority = unstable_getCurrentPriorityLevel();
@@ -25,6 +24,10 @@ export function requestUpdateLane() {
 
 export function getHighestPriorityLane(lanes: Lanes): Lane {
   return lanes & -lanes;
+}
+
+export function isSubsetOfLanes(set: Lanes, subset: Lane) {
+  return (set & subset) === subset;
 }
 
 export function markRootFinished(root: FiberRootNode, lane: Lane) {

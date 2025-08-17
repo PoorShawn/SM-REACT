@@ -18,7 +18,7 @@ export function createContainer(container: Container) {
 
 export function updateContainer(element: ReactElementType | null, root: FiberRootNode) {
   const hostRootFiber = root.current;
-  const lane = requestUpdateLane();
+  const lane = requestUpdateLane();  // 获取默认的优先级
   const update = createUpdate<ReactElementType | null>(element, lane);
 
   enqueueUpdate(
