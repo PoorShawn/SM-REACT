@@ -304,10 +304,6 @@ function ChildReconciler(shouldTrackEffects: boolean) {
       deleteRemainingChildren(returnFiber, currentFiber);
     }
 
-    if (__DEV__) {
-      console.warn('未实现的 reconcile 类型：', newChild);
-    }
-
     return null;
   };
 }

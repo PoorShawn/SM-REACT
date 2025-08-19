@@ -21,7 +21,7 @@ export function updateContainer(element: ReactElementType | null, root: FiberRoo
   // 首屏默认设置为同步更新
   unstable_runWithPriority(unstable_ImmediatePriority, () => {
     const hostRootFiber = root.current;
-    const lane = requestUpdateLane();  // 获取默认的优先级
+    const lane = requestUpdateLane();
     const update = createUpdate<ReactElementType | null>(element, lane);
 
     enqueueUpdate(

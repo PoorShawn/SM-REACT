@@ -72,13 +72,28 @@ export function renderWithHooks(wip: FiberNode, lane: Lane) {
 const HooksDispatcherOnMount: Dispatcher = {
   useState: mountState,
   useEffect: mountEffect,
-  useTransition: mountTransition
+  useTransition: mountTransition,
+  useRef: mountRef
 }
 
 const HooksDispatcherOnUpdate: Dispatcher = {
   useState: updateState,
   useEffect: updateEffect,
-  useTransition: updateTransition
+  useTransition: updateTransition,
+  useRef: updateRef
+}
+
+function mountRef<T>(initialValue: T): { current: T } {
+  const hook = mountWorkInProgressHook();
+  const ref = { current: initialValue };
+  hook.memoizedState = ref;
+
+  return ref;
+}
+
+function updateRef<T>(initialValue: T): { current: T } {
+  const hook = updateWorkInProgressHook();
+  return hook.memoizedState;
 }
 
 function mountEffect(create: EffectCallback | void, deps: EffectDeps | void) {
@@ -149,7 +164,6 @@ function pushEffect(
   destroy: EffectCallback | void,
   deps: EffectDeps
 ): Effect {
-  console.log('pushEffect')
   const effect: Effect = {
     tag: hookFlags,
     create,
@@ -236,7 +250,6 @@ function updateState<State>(): [State, Dispatch<State>] {
 }
 
 function updateWorkInProgressHook(): Hook {
-  // TODO 处理 render 阶段触发的更新
   let nextCurrentHook: Hook | null;
 
   if (currentHook === null) {

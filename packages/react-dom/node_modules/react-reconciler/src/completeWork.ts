@@ -15,10 +15,14 @@ import {
 	HostRoot,
 	HostText
 } from './wokTags';
-import { NoFlags, Update } from './fiberFlags';
+import { NoFlags, Ref, Update } from './fiberFlags';
 
 function markUpdate(fiber: FiberNode) {
 	fiber.flags |= Update;
+}
+
+function markRef(fiber: FiberNode) {
+	fiber.flags |= Ref;
 }
 
 export const completeWork = (wip: FiberNode) => {
@@ -30,12 +34,19 @@ export const completeWork = (wip: FiberNode) => {
 			if (current !== null && wip.stateNode) {
 				// update
 				markUpdate(wip);
+
+				if (current.ref !== wip.ref) {
+					markRef(wip);
+				}
 			} else {
 				// mount,构建离屏 DOM 树
-				// const instance = createInstance(wip.type, newProps);
 				const instance = createInstance(wip.type, newProps);
 				appendAllChildren(instance, wip);
 				wip.stateNode = instance;
+
+				if (wip.ref !== null) {
+					markRef(wip);
+				}
 			}
 			bubbleProperties(wip);
 			return null;

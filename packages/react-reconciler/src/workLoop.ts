@@ -1,6 +1,6 @@
 import { scheduleMicroTask } from "hostConfig";
 import { beginWork } from "./beginWork";
-import { commitHookEffectListCreate, commitHookEffectListDestroy, commitHookEffectListUnmount, commitMutationEffects } from "./commitWork";
+import { commitHookEffectListCreate, commitHookEffectListDestroy, commitHookEffectListUnmount, commitLayoutEffects, commitMutationEffects } from "./commitWork";
 import { completeWork } from "./completeWork";
 import { createWorkInProgress, FiberNode, FiberRootNode, PendingPassiveEffects } from "./fiber";
 import { MutationMask, NoFlags, PassiveMask } from "./fiberFlags";
@@ -258,12 +258,13 @@ function commitRoot(root: FiberRootNode) {
     root.current = finishedWork;
 
     // layout 阶段
+    commitLayoutEffects(finishedWork, root);
   } else {
     root.current = finishedWork;
   }
 
   rootDoesHasPassiveEffects = false;
-  ensureRootIsScheduled(root);
+  ensureRootIsScheduled(root);  // 再一次调度，确保任务队列不断被处理
 }
 
 function flushPassiveEffects(pendingPassiveEffects: PendingPassiveEffects): boolean {
