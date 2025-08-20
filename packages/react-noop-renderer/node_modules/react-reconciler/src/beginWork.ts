@@ -3,11 +3,12 @@
 import { ReactElementType } from "shared/ReactTypes";
 import { FiberNode } from "./fiber";
 import { processUpdateQueue, UpdateQueue } from "./updateQueue";
-import { Fragment, FunctionComponent, HostComponent, HostRoot, HostText } from "./wokTags";
+import { ContextProvider, Fragment, FunctionComponent, HostComponent, HostRoot, HostText } from "./wokTags";
 import { mountChildFiber, reconcilerChildFibers } from "./childFibers";
 import { renderWithHooks } from "./fiberHooks";
 import { Lane } from "./fiberLanes";
 import { Ref } from "./fiberFlags";
+import { pushProvider } from "./fiberContext";
 
 // 将 ReactElement 和 FiberNode 进行比较，并返回子 FiberNode
 export const beginWork = (wip: FiberNode, renderLane: Lane) => {
@@ -22,6 +23,8 @@ export const beginWork = (wip: FiberNode, renderLane: Lane) => {
       return updateFunctionComponent(wip, renderLane);
     case Fragment:
       return updateFragment(wip);
+    case ContextProvider:
+      return updateContextProvider(wip);
     default:
       if (__DEV__) {
         console.warn('beginWork 未实现的类型: ', wip.tag)
@@ -30,6 +33,19 @@ export const beginWork = (wip: FiberNode, renderLane: Lane) => {
   }
 
   return null;
+}
+
+function updateContextProvider(wip: FiberNode) {
+  console.log('updateContextProvider!');
+  const providerType = wip.type;
+  const context = providerType._context;
+  const newProps = wip.pendingProps;
+
+  pushProvider(context, newProps.value);
+
+  const newChildren = newProps.children;
+  reconcileChildren(wip, newChildren);
+  return wip.child;
 }
 
 function updateFragment(wip: FiberNode) {

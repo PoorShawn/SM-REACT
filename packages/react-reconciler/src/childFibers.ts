@@ -272,7 +272,6 @@ function ChildReconciler(shouldTrackEffects: boolean) {
       newChild = newChild.props.children;
     }
 
-
     // 判断当前 fiber 类型
     if (typeof newChild === 'object' && newChild !== null) {
       if (Array.isArray(newChild)) {

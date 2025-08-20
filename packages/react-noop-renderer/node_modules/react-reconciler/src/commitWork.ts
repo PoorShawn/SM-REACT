@@ -112,8 +112,8 @@ function safelyAttachRef(fiber: FiberNode) {
   }
 }
 
-function safelyDetachRef(current: FiberNode) {
-  const ref = current.ref;
+function safelyDetachRef(fiber: FiberNode) {
+  const ref = fiber.ref;
   if (ref !== null) {
     if (typeof ref === 'function') {
       ref(null);
